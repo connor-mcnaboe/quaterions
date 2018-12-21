@@ -34,10 +34,9 @@ def quaterion_ang(C):
 	print("Check ang: " + str(check) + "\n")
 	return q, q4
 
-# Method 2: Use given euler axis and principle angle to determine quaterions
 
 def quterion_axis(e, PHI):
-	
+	# Returns quaterion using euler vector e and principle angle PHI
 	q1 = e[0]*sin(PHI/2)
 	q2 = e[1]*sin(PHI/2)
 	q3 = e[2]*sin(PHI/2)
@@ -82,6 +81,21 @@ def transfrom2(q, r):
 	qcon = np.array([q[0], -1*q[1], -1*q[2], -1*q[3]])
 	r_out = q*r_in*qcon
 	print(r_out)
+
+
+def quat_cross(q1, q2):
+	# q2xq1, quaterion operation for "cross" product
+	r1 = q1[3]*q2[0:2] + q2[3]*q1[0:2] - vect_cross(q2[0:2], q1[0:2])
+	r2 = q2[3]*q1[3] - q2[0:2].dot(q1[0:2])
+	prod = np.array([r1], [r2])
+
+def vect_cross(x, y): 
+	# Need to define function for vecotr cross product becuase apprently 
+	# Numpy can only do matticies? Stupid! (or maybe i am)
+
+	XxY = np.array([[x[1]*y[2] - x[2]*y[1]], [x[2]*y[0] - x[0]*y[2]], \
+		[x[0]*y[1] - x[1]*y[0]]])
+
 # Rotation 1
 PHI1 = radians(-90)	     # Principle angle 
 e1 = np.array([0,1,0])   # Euler axis
@@ -117,8 +131,6 @@ for a  in r:
     raz = np.linspace(0, r_ax1[2], 100)
     ax.plot(rax, ray, raz)
 
-#ax.plot3D([0, r[0]], [0, r[1]], zs=[0, r[2]], 'blue')
-#ax.plot3D([0, r_ax[0]], [0, r_ax[1]], [0, r_ax[2]], 'gray')
-#ax.plot3D([0, r_ang[0]], [0, r_ang[1]], [0, r_ang[2]], 'green')
+
 
 plt.show()
